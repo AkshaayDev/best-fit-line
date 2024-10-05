@@ -22,7 +22,7 @@ double MSE(double intercept, double slope) {
 	for (int i = 0; i < points.size(); i++) {
 		double x = points[i].first;
 		double y = points[i].second;
-		sum += std::pow(y - (intercept + slope * x), 2);
+		sum += std::pow((intercept + slope * x) - y, 2);
 	}
 	return sum / points.size();
 }
@@ -37,9 +37,9 @@ int main() {
 		for (int j = 0; j < points.size(); j++) {
 			double x = points[j].first;
 			double y = points[j].second;
-			double error = y - (intercept + slope * x);
-			interceptGradient -= 2 * error;
-			slopeGradient -= 2 * error * x;
+			double error = (intercept + slope * x) - y;
+			interceptGradient += 2 * error;
+			slopeGradient += 2 * error * x;
 		}
 		interceptGradient /= points.size();
 		slopeGradient /= points.size();
