@@ -12,48 +12,58 @@ std::vector<std::pair<double, double>> points = {
 	{250, 8.5},
 	{300, 9.8},
 };
-double intercept = 0;
-double slope = 0;
+
+double m = 0;
+double c = 0;
 double learningRate = 0.00000001;
 int iterations = 10000000;
 
-double MSE(double intercept, double slope) {
+double MSE(double m, double c) { // Mean Squared Error
 	double sum = 0;
 	for (int i = 0; i < points.size(); i++) {
 		double x = points[i].first;
 		double y = points[i].second;
-		sum += std::pow((intercept + slope * x) - y, 2);
+		sum += std::pow((m * x + c) - y, 2);
 	}
 	return sum / points.size();
 }
+double MAE(double m, double c) { // Mean Absolute Error
+	double sum = 0;
+	for (int i = 0; i < points.size(); i++) {
+		double x = points[i].first;
+		double y = points[i].second;
+		sum += std::abs((m * x + c) - y);
+	}
+	return sum / points.size();
+}
+
 int main() {
 	// Gradient descent
 	for (int i = 0; i < iterations; i++) {
-		double interceptGradient = 0;
-		// Partial derivative of MSE with respect to intercept
-		double slopeGradient = 0;
-		// Partial derivative of MSE with respect to slope
+		double dm = 0; // Partial derivative of MSE with respect to slope(m)
+		double dc = 0; // Partial derivative of MSE with respect to intercept(c)
 
 		for (int j = 0; j < points.size(); j++) {
 			double x = points[j].first;
 			double y = points[j].second;
-			double error = (intercept + slope * x) - y;
-			interceptGradient += 2 * error;
-			slopeGradient += 2 * error * x;
+			double error = (m * x + c) - y;
+			dm += 2 * error * x;
+			dc += 2 * error;
 		}
-		interceptGradient /= points.size();
-		slopeGradient /= points.size();
-
-		intercept -= learningRate * interceptGradient;
-		slope -= learningRate * slopeGradient;
+		dm /= points.size();
+		dc /= points.size();
+		m -= learningRate * dm;
+		c -= learningRate * dc;
 	}
 
+	std::cout << "Points: ";
 	for (int i = 0; i < points.size(); i++) {
 		std::cout << "(" << points[i].first << "," << points[i].second << ")";
 		if (i != points.size() - 1) { std::cout << ","; }
 		else { std::cout << std::endl; }
 	}
-	std::cout << "Slope = " << slope << std::endl;
-	std::cout << "y-intercept = " << intercept << std::endl;
-	std::cout << "Mean Squared Error = " << MSE(intercept, slope) << std::endl;
+	std::cout << "Slope = " << m << std::endl;
+	std::cout << "y-intercept = " << c << std::endl;
+	std::cout << "Mean Squared Error = " << MSE(m, c) << std::endl;
+	std::cout << "Mean Absolute Error = " << MAE(m, c) << std::endl;
 }
