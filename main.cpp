@@ -28,15 +28,6 @@ double MSE(double m, double c) { // Mean Squared Error
 	}
 	return sum / points.size();
 }
-double MAE(double m, double c) { // Mean Absolute Error
-	double sum = 0;
-	for (int i = 0; i < points.size(); i++) {
-		double x = points[i].first;
-		double y = points[i].second;
-		sum += std::abs((m * x + c) - y);
-	}
-	return sum / points.size();
-}
 
 int main() {
 	// Gradient descent
@@ -66,5 +57,4 @@ int main() {
 	std::cout << "Slope = " << m << std::endl;
 	std::cout << "y-Intercept = " << c << std::endl;
 	std::cout << "Mean Squared Error = " << MSE(m, c) << std::endl;
-	std::cout << "Mean Absolute Error = " << MAE(m, c) << std::endl;
 }
