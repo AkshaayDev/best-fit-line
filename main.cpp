@@ -3,6 +3,7 @@
 #include <utility>
 #include <cmath>
 
+// (x,y) sample points
 std::vector<std::pair<double, double>> points = {
 	{0, 0},
 	{50, 2},
