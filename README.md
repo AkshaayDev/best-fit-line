@@ -73,8 +73,7 @@ This will update $m$ and $c$ accordingly to minimise $MSE$, giving us the parame
 Change the `points` vector to your dataset and experiment with `learningRate` and `iterations` to get the optimal solution.
 
 ## License
-This project is unlicensed.
-You are free to use, modify, distribute or do anything else **without any restrictions**.
+This project is **unlicensed**.
 
 ## ❌No Contributions
 This is a personal project and I do not accept contributions.
