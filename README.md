@@ -69,6 +69,20 @@ $$ = \frac{1}{n} \sum_{i=1}^{n} 2(\hat{y}_i-y_i) $$
 Now that we have these derivatives, we can substitute them into the gradient descent update formula.
 This will update $m$ and $c$ accordingly to minimise $MSE$, giving us the parameters to the best fit line.
 
+### Testing
+There is actually a simpler way to get the best fit line using **linear regression**.
+
+$$ m = \frac{n \sum xy - \sum x \sum y}{n \sum x^2 - (\sum x)^2} $$
+
+$$ c = \frac{\sum y - m \sum x}{n} $$
+
+These values of $m$ and $c$ can be used to measure the accuracy of the gradient descent algorithm.
+
+### Summary
+In this script, we aim to find the best values for the parameters $m$ and $c$ that minimise the Mean Squared Error (MSE).
+Using gradient descent, we repeatedly adjust them based on how much they influence the cost.
+This process is similar to a ball rolling downhill—each step moves the parameters in the direction that most reduces the error. Over many iterations, this leads to a line that best fits the given data points.
+
 ## Usage
 Change the `points` vector to your dataset and experiment with `learningRate` and `iterations` to get the optimal solution.
 
