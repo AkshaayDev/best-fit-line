@@ -18,8 +18,8 @@ double N = points.size();
 // Model the dataset with y = mx + c
 double m = 0; // Gradient
 double c = 0; // y-Intercept
-double learningRate = 0.00000001;
-int iterations = 10000000;
+double learningRate = 1e-5;
+int iterations = 1e6;
 
 // Predict the y-value for a given x-value using the parameters
 double predict(double x) {
@@ -29,8 +29,8 @@ double predict(double x) {
 // Mean Squared Error
 double MSE() {
 	double sum = 0;
-	for (const auto& [X, Y] : points) {
-		sum += std::pow(predict(X) - Y, 2);
+	for (const auto& point : points) {
+		sum += std::pow(predict(point.first) - point.second, 2);
 	}
 	return sum / N;
 }
@@ -41,9 +41,9 @@ void gradientDescent() {
 		double dm = 0; // Partial derivative of MSE with respect to slope(m)
 		double dc = 0; // Partial derivative of MSE with respect to intercept(c)
 
-		for (const auto& [X, Y] : points) {
-			double error = predict(X) - Y;
-			dm += 2 * error * X;
+		for (const auto& point : points) {
+			double error = predict(point.first) - point.second;
+			dm += 2 * error * point.first;
 			dc += 2 * error;
 		}
 		dm /= N;
@@ -56,7 +56,8 @@ void gradientDescent() {
 // Calculate the expected slope and y-intercept
 void linearRegression() {
 	double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-	for (const auto& [X, Y] : points) {
+	for (const auto& point : points) {
+		double X = point.first, Y = point.second;
 		sumX += X; sumY += Y; sumXY += X*Y; sumX2 += X*X;
 	}
 	m = (N * sumXY - sumX * sumY) / (N * sumX2 - sumX * sumX);
