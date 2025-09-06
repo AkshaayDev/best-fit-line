@@ -28,6 +28,7 @@ double predict(double x) {
 
 // Mean Squared Error
 double MSE() {
+	// MSE = 1/N * ∑(ŷ_i - y_i)^2
 	double sum = 0;
 	for (const auto& point : points) {
 		sum += std::pow(predict(point.first) - point.second, 2);
@@ -43,12 +44,18 @@ void gradientDescent() {
 
 		for (const auto& point : points) {
 			double error = predict(point.first) - point.second;
+			// ∂MSE/∂ŷ = 2(ŷ - y)
 			dm += 2 * error * point.first;
+			// ∂MSE/m = 2(ŷ - y)x
 			dc += 2 * error;
+			// ∂MSE/c = 2(ŷ - y)
 		}
+		// Take the average of the partial derivatives
 		dm /= N;
 		dc /= N;
+		// m <- m - α * ∂MSE/m
 		m -= learningRate * dm;
+		// c <- c - α * ∂MSE/c
 		c -= learningRate * dc;
 	}
 }
@@ -65,6 +72,7 @@ void linearRegression() {
 }
 
 int main() {
+	// List the points
 	std::cout << "Points: ";
 	for (int i = 0; i < N; i++) {
 		std::cout << "(" << points[i].first << "," << points[i].second << ")";
@@ -72,6 +80,7 @@ int main() {
 	}
 	std::cout << "\n\n";
 
+	// Output predicted and expected line properties
 	for (int i = 0; i < 2; i++) {
 		(i == 0) ? gradientDescent() : linearRegression();
 		std::cout << ((i == 0) ? "Predicted" : "Expected") << ":\n";
