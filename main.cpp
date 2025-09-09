@@ -43,11 +43,11 @@ void gradientDescent() {
 		double dc = 0; // Partial derivative of MSE with respect to intercept(c)
 
 		for (const auto& point : points) {
-			double error = predict(point.first) - point.second;
+			double error = 2.0 * (predict(point.first) - point.second);
 			// ∂MSE/∂ŷ = 2(ŷ - y)
-			dm += 2 * error * point.first;
+			dm += error * point.first;
 			// ∂MSE/m = 2(ŷ - y)x
-			dc += 2 * error;
+			dc += error;
 			// ∂MSE/c = 2(ŷ - y)
 		}
 		// Take the average of the partial derivatives
